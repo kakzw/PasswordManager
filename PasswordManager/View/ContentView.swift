@@ -83,10 +83,26 @@ struct MasterPasswordView: View {
           HStack {
             Spacer()
             Image(systemName: "xmark.circle.fill")
-              .padding()
               .foregroundColor(Color.secondary)
               .onTapGesture {
                 masterPassword = ""
+              }
+            Image(systemName: "paperplane.fill")
+              .padding(.trailing)
+              .foregroundStyle(Color.blue)
+              .onTapGesture {
+                // if master password has been set
+                // check if it matches saved password
+                // otherwise set entered text as master password
+                if pwManager.doesMasterPasswordExist() {
+                  accessGranted = pwManager.doesMasterPasswordMatch(masterPassword)
+                  if !accessGranted {
+                    pwEntered = true
+                  }
+                } else {
+                  pwManager.setMasterPassword(masterPassword)
+                  accessGranted = true
+                }
               }
           }
           .opacity(masterPassword.isEmpty ? 0.0 : 1.0)

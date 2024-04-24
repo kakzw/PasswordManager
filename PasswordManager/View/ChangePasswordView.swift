@@ -28,6 +28,7 @@ struct ChangePasswordView: View {
       Spacer()
     }
     .padding()
+    .navigationTitle("Change Password")
     .toolbar {
 			// back button to go back to previous screen
 			ToolbarItem(placement: .topBarLeading) {

@@ -233,4 +233,22 @@ class PasswordManager {
     }
     return mutableSalt
   }
+  
+  // MARK: - Testing Functions
+  
+  func encryptTest(_ pw: String) -> Data? {
+    return encrypt(pw)
+  }
+  
+  func decryptTest(_ data: Data) -> String? {
+    return decryptPassword(data)
+  }
+  
+  func hashTest(_ pw: String, salt: Data) -> Data {
+    return hashPassword(pw, salt: salt)
+  }
+  
+  func saltTest() -> Data {
+    return getSalt()
+  }
 }

@@ -9,28 +9,179 @@ import XCTest
 @testable import PasswordManager
 
 final class PasswordManagerTests: XCTestCase {
-	
-	override func setUpWithError() throws {
-		// Put setup code here. This method is called before the invocation of each test method in the class.
-	}
-	
-	override func tearDownWithError() throws {
-		// Put teardown code here. This method is called after the invocation of each test method in the class.
-	}
-	
-	func testExample() throws {
-		// This is an example of a functional test case.
-		// Use XCTAssert and related functions to verify your tests produce the correct results.
-		// Any test you write for XCTest can be annotated as throws and async.
-		// Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-		// Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-	}
-	
-	func testPerformanceExample() throws {
-		// This is an example of a performance test case.
-		self.measure {
-			// Put the code you want to measure the time of here.
-		}
-	}
-	
+  
+  private var model: PasswordManager!
+  
+  override func setUpWithError() throws {
+    model = PasswordManager()
+  }
+  
+  override func tearDownWithError() throws {
+    model = nil
+  }
+  
+  // MARK: - Encryption & Decryption
+  
+  func testSuccessfulEncryption() {
+    // Given (Arrange)
+    let pw = ""
+    
+    // When(Act)
+    guard let encrypted = model.encryptTest(pw) else {
+      return
+    }
+    guard let decrypted = model.decryptTest(encrypted) else {
+      return
+    }
+    
+    // Then (Assert)
+    XCTAssertEqual(pw, decrypted)
+  }
+  
+  func testEmptyStringEncryption() {
+    let pw = ""
+    
+    guard let encrypted = model.encryptTest(pw) else {
+      return
+    }
+    guard let decrypted = model.decryptTest(encrypted) else {
+      return
+    }
+    
+    XCTAssertEqual(pw, decrypted)
+  }
+  
+  func testEmojiEncryption() {
+    let pw = "😊"
+    
+    guard let encrypted = model.encryptTest(pw) else {
+      return
+    }
+    guard let decrypted = model.decryptTest(encrypted) else {
+      return
+    }
+    
+    XCTAssertEqual(pw, decrypted)
+  }
+  
+  // MARK: - Hash
+  
+  func testSuccessfulHash() {
+    let pw = "!6Yr4FjZ8?{1K4"
+    let salt = model.saltTest()
+    
+    let hashed1 = model.hashTest(pw, salt: salt)
+    let hashed2 = model.hashTest(pw, salt: salt)
+    
+    XCTAssertEqual(hashed1, hashed2)
+  }
+  
+  func testDifferentPwHash() {
+    let pw1 = "!6Yr4FjZ8?{1K4"
+    let pw2 = "!6Yr4FjZ8?{1K3"
+    let salt = model.saltTest()
+    
+    let hashed1 = model.hashTest(pw1, salt: salt)
+    let hashed2 = model.hashTest(pw2, salt: salt)
+    
+    XCTAssertNotEqual(hashed1, hashed2)
+  }
+  
+  func testDifferentSaltHash() {
+    let pw = "!6Yr4FjZ8?{1K4"
+    let salt1 = model.saltTest()
+    let salt2 = model.saltTest()
+    
+    let hashed1 = model.hashTest(pw, salt: salt1)
+    let hashed2 = model.hashTest(pw, salt: salt2)
+    
+    XCTAssertNotEqual(hashed1, hashed2)
+  }
+  
+  func testEmptyPwHash() {
+    let pw = ""
+    let salt = model.saltTest()
+    
+    let hashed1 = model.hashTest(pw, salt: salt)
+    let hashed2 = model.hashTest(pw, salt: salt)
+    
+    XCTAssertEqual(hashed1, hashed2)
+  }
+  
+  func testEmojiHash() { 
+    let pw = "😊"
+    let salt = model.saltTest()
+    
+    let hashed1 = model.hashTest(pw, salt: salt)
+    let hashed2 = model.hashTest(pw, salt: salt)
+    
+    XCTAssertEqual(hashed1, hashed2)
+  }
+  
+  // MARK: - Password Strength
+  
+  func testSuccessfulPwStrength() {
+    let pw = "!6Yr4FjZ8?{1K4"
+    
+    let res = model.getPasswordStrength(pw)
+    
+    XCTAssertEqual(res, 5)
+  }
+  
+  func testNoLowercasePwStrength() {
+    let pw = "!6YR4FJZ8?{1K4"
+    
+    let res = model.getPasswordStrength(pw)
+    
+    XCTAssertEqual(res, 4)
+  }
+  
+  func testNoUppercasePwStrength() {
+    let pw = "!6yr4fjz8?{1k4"
+    
+    let res = model.getPasswordStrength(pw)
+    
+    XCTAssertEqual(res, 4)
+  }
+  
+  func testNoDigitPwStrength() {
+    let pw = "!aYrfFjZe?{oKF"
+    
+    let res = model.getPasswordStrength(pw)
+    
+    XCTAssertEqual(res, 4)
+  }
+  
+  func testNoSpecialPwStrength() {
+    let pw = "e6Yr4FjZ8qb1K4"
+    
+    let res = model.getPasswordStrength(pw)
+    
+    XCTAssertEqual(res, 4)
+  }
+  
+  func testShortPwStrength() {
+    let pw = "!6Yr4FjZ8?{"
+    
+    let res = model.getPasswordStrength(pw)
+    
+    XCTAssertEqual(res, 4)
+  }
+  
+  func testEmptyPwStrength() {
+    let pw = ""
+    
+    let res = model.getPasswordStrength(pw)
+    
+    XCTAssertEqual(res, 0)
+  }
+  
+  // MARK: - Generate Strong Password
+  
+  func testGeneratePw() {
+    let res = model.generatePassword()
+    let pwStrength = model.getPasswordStrength(res)
+    
+    XCTAssertEqual(pwStrength, 5)
+  }
 }

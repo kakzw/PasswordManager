@@ -1,13 +1,13 @@
 # Password Manager Application
 
-This app provides a secure and convenient solution for managing your passwords. With advanced encryption and hashing techniques, our app ensures that your sensitive data remains protected against unauthorized access and potential breaches.
+This app provides a secure and convenient solution for managing your passwords. With advanced encryption and hashing techniques, this app ensures that your sensitive data remains protected against unauthorized access and potential breaches.
 
 ## Features
 
-- **Master Password**: Set a master password to control access to your stored passwords.
+- **Master Password**: Sets a master password to control access to your stored passwords.
 - **Secure Storage**: Utilizes advanced encryption and hashing techniques to securely store passwords.
 - **Password Strength Meter**: Provides visual feedback on the strength of your chosen passwords.
-- **Automatic Password Generation**: Generate strong passwords that meet recommended criteria.
+- **Automatic Password Generation**: Generates strong passwords that meet recommended criteria.
 
 ## Screenshots
 
@@ -32,7 +32,7 @@ This app provides a secure and convenient solution for managing your passwords. 
 1. **Setting Master Password**: Upon launching the app for the first time, set your master password.
 2. **Managing Passwords**: Add, edit, or delete passwords from the list view.
 3. **Password Strength**: Ensure your passwords are strong by using the password strength meter.
-4. **Automatic Password Generation**: Generate strong passwords with the long press of the strong password.
+4. **Automatic Password Generation**: Use the strong password with the long press of the strong password.
 
 ## Security Measures
 

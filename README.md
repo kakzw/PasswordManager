@@ -1,6 +1,6 @@
 # Password Manager Application
 
-Welcome to our Password Manager app developed in Swift! This app provides a secure and convenient solution for managing your passwords. With advanced encryption and hashing techniques, our app ensures that your sensitive data remains protected against unauthorized access and potential breaches.
+This app provides a secure and convenient solution for managing your passwords. With advanced encryption and hashing techniques, our app ensures that your sensitive data remains protected against unauthorized access and potential breaches.
 
 ## Features
 

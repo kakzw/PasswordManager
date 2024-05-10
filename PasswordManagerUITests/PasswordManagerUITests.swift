@@ -149,10 +149,10 @@ final class PasswordManagerUITests: XCTestCase {
     
     let expectation = XCTestExpectation(description: "Delay expectation")
     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-      // Fulfill the expectation after the delay
+      // fulfill the expectation after the delay
       expectation.fulfill()
     }
-    // Wait for the expectation to be fulfilled for a maximum of 2 seconds
+    // wait for the expectation to be fulfilled for a maximum of 2 seconds
     wait(for: [expectation], timeout: 2)
     
     let delPwBtn = app.buttons["Delete Password"]
@@ -162,8 +162,6 @@ final class PasswordManagerUITests: XCTestCase {
     let delBtn = app.alerts["Are you sure?"].scrollViews.otherElements.buttons["Delete"]
     XCTAssertTrue(delBtn.exists)
     delBtn.tap()
-    
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
   }
   
   func testWeakPw() {

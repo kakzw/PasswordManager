@@ -76,6 +76,8 @@ struct MasterPasswordView: View {
     Section {
       TextField("Password", text: $masterPassword)
         .padding()
+        .autocorrectionDisabled()
+        .textInputAutocapitalization(.never)
         .background(Color(.systemGray6))
         .cornerRadius(10)
         .overlay {
